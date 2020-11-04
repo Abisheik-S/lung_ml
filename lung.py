@@ -114,34 +114,26 @@ def main():
     st.set_option('deprecation.showfileUploaderEncoding', False)
     html_temp = """
     <div style="background-color:#084C46 ;padding:20px">
-    <h1 style="color:white;text-align:center;"> Lung Parametrs Detection</h2>
+    <h1 style="color:white;text-align:center;"> Lung Parameters Detection</h2>
     </div>
     """
     st.markdown(html_temp, unsafe_allow_html=True)
-    n1=st.file_uploader("Deep inhale Deep Exhale", type=["wav", "mp4", "mp3"])
-    d1 = st.file_uploader("Normal inhale Normal Exhale", type=["wav", "mp4", "mp3"])
-    n11 = st.file_uploader("Normal inhale Deep Exhale", type=["wav", "mp4", "mp3"])
-    n12= st.file_uploader("Deep inhale Normal Exhale", type=["wav", "mp4", "mp3"])
-    normal = n1
-    deep = d1
-    nide = n11
-    nedi = n12
-    safe_html="""  
-      <div style="background-color:#F4D03F;padding:10px >
-       <h1 style="color:white;text-align:center;"> Your are safe</h2>
-       </div>
-    """
-    danger_html="""  
-      <div style="background-color:#F08080;padding:10px >
-       <h1 style="color:black ;text-align:center;"> Your are in  danger</h2>
-       </div>
-    """
-    
+    deep=st.file_uploader("Deep inhale Deep Exhale", type=["wav", "mp4", "mp3"])
+    normal = st.file_uploader("Normal inhale Normal Exhale", type=["wav", "mp4", "mp3"])
+    nide = st.file_uploader("Normal inhale Deep Exhale", type=["wav", "mp4", "mp3"])
+    nedi= st.file_uploader("Deep inhale Normal Exhale", type=["wav", "mp4", "mp3"])
+
     if st.button("Predict"):
-       
-        output=predict(normal,deep,nide,nedi)
+       try:
+        output=predict(deep,normal,nide,nedi)
         st.dataframe(output) 
-        
+       except:
+        error_temp = """
+        <div style="background-color:#F14125 ;padding:20px">
+        <h1 style="color:white;text-align:center;"> Invalid input</h2>
+        </div>
+        """
+        st.markdown(error_temp, unsafe_allow_html=True)
 
 if __name__=='__main__':
     main()
